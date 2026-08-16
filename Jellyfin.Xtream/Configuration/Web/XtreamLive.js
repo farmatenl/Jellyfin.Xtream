@@ -18,6 +18,7 @@ export default function (view) {
       () => Xtream.fetchJson('Xtream/LiveCategories'),
       (categoryId) => Xtream.fetchJson(`Xtream/LiveCategories/${categoryId}`),
     ).then((data) => {
+      Xtream.bindSelectionToolbar(view, table, data);
       view.querySelector('#XtreamLiveForm').addEventListener('submit', (e) => {
         Dashboard.showLoadingMsg();
 

@@ -175,6 +175,84 @@ const populateCategoriesTable = (table, loadConfig, loadCategories, loadItems) =
     });
 }
 
+// Keep in sync with categoryToolbar.js (node tests). Relative imports 404
+// because Jellyfin serves each plugin page by name, not as a directory.
+const categoryMatches = (name, query) => {
+  const q = (query ?? '').trim().toLowerCase();
+  if (!q) return true;
+  return String(name ?? '').toLowerCase().includes(q);
+};
+
+const isFullySelected = (live) => Array.isArray(live) && live.length === 0;
+
+const nextBulkAction = (lives) => {
+  if (lives.length > 0 && lives.every(isFullySelected)) return 'deselect';
+  return 'select';
+};
+
+const visibleCategoryRows = (table) =>
+  [...table.querySelectorAll('tr[data-category-id]')]
+    .filter((row) => row.style.display !== 'none');
+
+const categoryLive = (data, id) => {
+  if (Object.prototype.hasOwnProperty.call(data, id)) return data[id];
+  const numericId = Number(id);
+  if (!Number.isNaN(numericId) && Object.prototype.hasOwnProperty.call(data, numericId)) {
+    return data[numericId];
+  }
+  return undefined;
+};
+
+const applyFilter = (filterInput, table) => {
+  if (!filterInput || !table) return;
+  const query = filterInput.value;
+  table.querySelectorAll('tr[data-category-id]').forEach((row) => {
+    const nameCell = row.querySelector('td:nth-child(2)');
+    const name = nameCell ? nameCell.innerText : '';
+    row.style.display = categoryMatches(name, query) ? '' : 'none';
+  });
+};
+
+const applyBulk = (table, data, action) => {
+  visibleCategoryRows(table).forEach((row) => {
+    const checkbox = row.querySelector('td:first-child > input[type="checkbox"]');
+    if (!checkbox) return;
+    checkbox.checked = action === 'select';
+    checkbox.indeterminate = false;
+    checkbox.dispatchEvent(new Event('change'));
+  });
+};
+
+const refreshBulkButton = (button, table, data) => {
+  if (!button || !table) return;
+  const lives = visibleCategoryRows(table).map((row) => categoryLive(data, row.dataset.categoryId));
+  const action = nextBulkAction(lives);
+  button.dataset.action = action;
+  const label = button.querySelector('span');
+  if (label) {
+    label.innerText = action === 'deselect' ? 'Deselect all' : 'Select all';
+  }
+};
+
+const bindSelectionToolbar = (view, table, data) => {
+  const filterInput = view.querySelector('#CategoryFilter');
+  const bulk = view.querySelector('#BulkSelect');
+  const sync = () => refreshBulkButton(bulk, table, data);
+  if (filterInput) {
+    filterInput.addEventListener('input', () => {
+      applyFilter(filterInput, table);
+      sync();
+    });
+  }
+  if (bulk) {
+    bulk.addEventListener('click', () => {
+      applyBulk(table, data, bulk.dataset.action || 'select');
+      sync();
+    });
+  }
+  sync();
+};
+
 const fetchJson = (url) => ApiClient.fetch({
   dataType: 'json',
   type: 'GET',
@@ -222,5 +300,9 @@ export default {
   filter,
   pluginConfig,
   populateCategoriesTable,
+  applyFilter,
+  applyBulk,
+  refreshBulkButton,
+  bindSelectionToolbar,
   setTabs,
 }

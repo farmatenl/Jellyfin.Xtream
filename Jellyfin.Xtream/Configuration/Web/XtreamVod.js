@@ -20,6 +20,7 @@ export default function (view) {
       () => Xtream.fetchJson('Xtream/VodCategories'),
       (categoryId) => Xtream.fetchJson(`Xtream/VodCategories/${categoryId}`),
     ).then((data) => {
+      Xtream.bindSelectionToolbar(view, table, data);
       view.querySelector('#XtreamVodForm').addEventListener('submit', (e) => {
         Dashboard.showLoadingMsg();
 

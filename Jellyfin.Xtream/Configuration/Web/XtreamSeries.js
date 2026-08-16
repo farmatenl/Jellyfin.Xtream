@@ -18,6 +18,7 @@ export default function (view) {
       () => Xtream.fetchJson('Xtream/SeriesCategories'),
       (categoryId) => Xtream.fetchJson(`Xtream/SeriesCategories/${categoryId}`),
     ).then((data) => {
+      Xtream.bindSelectionToolbar(view, table, data);
       view.querySelector('#XtreamSeriesForm').addEventListener('submit', (e) => {
         Dashboard.showLoadingMsg();
 

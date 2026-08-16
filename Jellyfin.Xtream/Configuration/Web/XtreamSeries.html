@@ -12,6 +12,15 @@
         <div class="sectionTitleContainer flex align-items-center">
           <h2 class="sectionTitle">Series selection</h2>
         </div>
+        <div class="selection-toolbar">
+          <div class="inputContainer selection-toolbar-search">
+            <input id="CategoryFilter" name="CategoryFilter" type="text" is="emby-input"
+              placeholder="Search categories..." />
+          </div>
+          <button is="emby-button" type="button" id="BulkSelect" class="raised emby-button">
+            <span>Select all</span>
+          </button>
+        </div>
         <div class="inputContainer">
           <table class="categories-table">
             <thead>

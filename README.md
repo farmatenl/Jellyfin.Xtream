@@ -1,9 +1,13 @@
 # Jellyfin.Xtream
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Kevinjil/Jellyfin.Xtream/total)
-![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/Kevinjil/Jellyfin.Xtream/latest/total)
-![GitHub commits since latest release](https://img.shields.io/github/commits-since/Kevinjil/Jellyfin.Xtream/latest)
-![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FKevinjil%2FJellyfin.Xtream%2Frefs%2Fheads%2Fmaster%2Fbuild.yaml&query=targetAbi&label=Jellyfin%20ABI)
-![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FKevinjil%2FJellyfin.Xtream%2Frefs%2Fheads%2Fmaster%2Fbuild.yaml&query=framework&label=.NET%20framework)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/farmatenl/Jellyfin.Xtream/total)
+![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/farmatenl/Jellyfin.Xtream/latest/total)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/farmatenl/Jellyfin.Xtream/latest)
+![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffarmatenl%2FJellyfin.Xtream%2Frefs%2Fheads%2Fmaster%2Fbuild.yaml&query=targetAbi&label=Jellyfin%20ABI)
+![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffarmatenl%2FJellyfin.Xtream%2Frefs%2Fheads%2Fmaster%2Fbuild.yaml&query=framework&label=.NET%20framework)
+
+> Fork of [Kevinjil/Jellyfin.Xtream](https://github.com/Kevinjil/Jellyfin.Xtream)
+> maintained at [farmatenl/Jellyfin.Xtream](https://github.com/farmatenl/Jellyfin.Xtream).
+> Upstream is paused (see [issue #292](https://github.com/Kevinjil/Jellyfin.Xtream/issues/292)). Same plugin GUID; this is a drop-in upgrade.
 
 The Jellyfin.Xtream plugin can be used to integrate the content provided by an [Xtream-compatible API](https://xtream-ui.org/api-xtreamui-xtreamcode/) in your [Jellyfin](https://jellyfin.org/) instance.
 
@@ -16,8 +20,10 @@ To add the repository, follow these steps:
 1. Select the `Repositories` tab on the top of the page.
 1. Click the `+` symbol to add a repository.
 1. Enter `Jellyfin.Xtream` as the repository name.
-1. Enter [`https://kevinjil.github.io/Jellyfin.Xtream/repository.json`](https://kevinjil.github.io/Jellyfin.Xtream/repository.json) as the repository url.
+1. Enter [`https://farmatenl.github.io/Jellyfin.Xtream/repository.json`](https://farmatenl.github.io/Jellyfin.Xtream/repository.json) as the repository url.
 1. Click save.
+
+If you still have the upstream catalog (`kevinjil.github.io`) enabled, disable it so versions do not flap.
 
 To install or update the plugin, follow these steps:
 
