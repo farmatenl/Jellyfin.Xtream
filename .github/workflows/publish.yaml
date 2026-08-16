@@ -4,7 +4,17 @@ on:
   release:
     types:
       - released
+      - published
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to attach assets to (e.g. v0.8.2.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pages: write
 
 jobs:
   build:
@@ -28,10 +38,22 @@ jobs:
             sha256sum ${file#./} >> ${file%.*}.sha256
           done
           ls -l
+      - name: Resolve release upload URL
+        id: release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |-
+          TAG="${{ github.event.release.tag_name }}"
+          if [ -z "$TAG" ]; then
+            TAG="${{ github.event.inputs.tag }}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          URL=$(gh api "repos/${{ github.repository }}/releases/tags/${TAG}" --jq .upload_url)
+          echo "upload_url=$URL" >> "$GITHUB_OUTPUT"
       - name: Upload GitHub Release assets
         uses: shogo82148/actions-upload-release-asset@v1.9.2
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ steps.release.outputs.upload_url }}
           asset_path: ./*
   generate:
     runs-on: ubuntu-latest
